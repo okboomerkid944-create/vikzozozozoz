@@ -1,0 +1,1355 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Jacob | Certified Cool Person</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="A stylish little website about Jacob, a very cool person." />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg: #050816;
+      --bg-alt: #0b1020;
+      --card-bg: #0f172a;
+      --accent: #6366f1;
+      --accent-soft: rgba(99, 102, 241, 0.15);
+      --text: #e5e7eb;
+      --muted: #9ca3af;
+      --border: rgba(148, 163, 184, 0.3);
+      --shadow-soft: 0 18px 45px rgba(15, 23, 42, 0.6);
+      --radius-xl: 24px;
+      --transition-fast: 0.18s ease-out;
+      --transition-med: 0.25s ease-out;
+    }
+
+    body.light {
+      --bg: #f4f4f7;
+      --bg-alt: #ffffff;
+      --card-bg: #ffffff;
+      --accent: #4f46e5;
+      --accent-soft: rgba(79, 70, 229, 0.08);
+      --text: #020617;
+      --muted: #6b7280;
+      --border: rgba(148, 163, 184, 0.35);
+      --shadow-soft: 0 12px 35px rgba(15, 23, 42, 0.12);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: "Poppins", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: radial-gradient(circle at top, #1e293b 0, var(--bg) 45%);
+      color: var(--text);
+      min-height: 100vh;
+      line-height: 1.6;
+      overflow-x: hidden;
+      transition: background 0.3s ease, color 0.3s ease;
+    }
+
+    .noise-overlay {
+      pointer-events: none;
+      position: fixed;
+      inset: 0;
+      opacity: 0.12;
+      mix-blend-mode: soft-light;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160' viewBox='0 0 160 160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='1.2' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.5'/%3E%3C/svg%3E");
+      z-index: -1;
+    }
+
+    .page {
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 20px 16px 64px;
+    }
+
+    header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 24px;
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      backdrop-filter: blur(18px);
+      background: linear-gradient(to bottom, rgba(15, 23, 42, 0.9), transparent);
+      padding: 10px 4px 16px;
+    }
+
+    body.light header {
+      background: linear-gradient(to bottom, rgba(255, 255, 255, 0.9), transparent);
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      font-size: 0.95rem;
+      text-transform: uppercase;
+    }
+
+    .logo-badge {
+      width: 30px;
+      height: 30px;
+      border-radius: 999px;
+      background: radial-gradient(circle at 20% 20%, #eab308, #f97316 35%, #4f46e5);
+      box-shadow: 0 0 24px rgba(250, 204, 21, 0.6);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.8rem;
+      color: #020617;
+      font-weight: 700;
+    }
+
+    nav {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      font-size: 0.85rem;
+    }
+
+    nav a {
+      text-decoration: none;
+      color: var(--muted);
+      padding: 6px 10px;
+      border-radius: 999px;
+      border: 1px solid transparent;
+      transition: background var(--transition-fast), border-color var(--transition-fast), color var(--transition-fast), transform 0.13s ease-out;
+      cursor: pointer;
+    }
+
+    nav a:hover {
+      background: rgba(148, 163, 184, 0.08);
+      border-color: rgba(148, 163, 184, 0.35);
+      color: var(--text);
+      transform: translateY(-1px);
+    }
+
+    .theme-toggle {
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      background: rgba(15, 23, 42, 0.6);
+      padding: 5px 10px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.75rem;
+      color: var(--muted);
+      cursor: pointer;
+      transition: background var(--transition-fast), border-color var(--transition-fast), transform 0.18s ease-out;
+    }
+
+    body.light .theme-toggle {
+      background: rgba(255, 255, 255, 0.8);
+    }
+
+    .theme-toggle:hover {
+      transform: translateY(-1px);
+      border-color: var(--accent);
+    }
+
+    .theme-icon {
+      font-size: 0.95rem;
+    }
+
+    main {
+      margin-top: 16px;
+      display: grid;
+      gap: 32px;
+    }
+
+    /* Hero */
+    .hero {
+      display: grid;
+      grid-template-columns: minmax(0, 2.1fr) minmax(0, 1.6fr);
+      gap: 28px;
+      align-items: center;
+    }
+
+    @media (max-width: 800px) {
+      .hero {
+        grid-template-columns: minmax(0, 1fr);
+      }
+    }
+
+    .hero-text {
+      position: relative;
+      padding: 18px 18px 18px 0;
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      background: rgba(15, 23, 42, 0.7);
+      padding: 5px 10px;
+      font-size: 0.8rem;
+      color: var(--muted);
+      margin-bottom: 16px;
+      backdrop-filter: blur(10px);
+    }
+
+    body.light .pill {
+      background: rgba(255, 255, 255, 0.95);
+    }
+
+    .pill-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 999px;
+      background: #22c55e;
+      box-shadow: 0 0 12px rgba(34, 197, 94, 0.7);
+    }
+
+    .hero-title {
+      font-size: clamp(2.4rem, 4vw, 3rem);
+      font-weight: 700;
+      letter-spacing: 0.02em;
+      margin-bottom: 8px;
+    }
+
+    .hero-title span {
+      background: linear-gradient(120deg, #facc15, #f97316, #6366f1);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+
+    .hero-subtitle {
+      font-size: 0.95rem;
+      color: var(--muted);
+      max-width: 520px;
+      margin-bottom: 18px;
+    }
+
+    .hero-subtitle strong {
+      color: var(--text);
+      font-weight: 500;
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 16px;
+    }
+
+    .btn {
+      border-radius: 999px;
+      border: 1px solid transparent;
+      padding: 10px 18px;
+      font-size: 0.9rem;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      transition: transform var(--transition-med), box-shadow var(--transition-med), background var(--transition-med), border-color var(--transition-med), color var(--transition-med);
+      text-decoration: none;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, #4f46e5, #6366f1);
+      color: #e5e7eb;
+      box-shadow: 0 18px 40px rgba(79, 70, 229, 0.4);
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px) translateX(1px);
+      box-shadow: 0 20px 55px rgba(79, 70, 229, 0.6);
+    }
+
+    .btn-ghost {
+      background: transparent;
+      border-color: var(--border);
+      color: var(--muted);
+    }
+
+    .btn-ghost:hover {
+      border-color: var(--accent);
+      background: rgba(148, 163, 184, 0.08);
+      color: var(--text);
+    }
+
+    .hero-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+      font-size: 0.8rem;
+      color: var(--muted);
+    }
+
+    .meta-item {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .meta-badge {
+      padding: 3px 8px;
+      border-radius: 999px;
+      background: var(--accent-soft);
+      color: var(--accent);
+      font-size: 0.7rem;
+      border: 1px solid rgba(129, 140, 248, 0.5);
+    }
+
+    /* Hero card */
+    .hero-card-wrapper {
+      position: relative;
+    }
+
+    .glow-orb {
+      position: absolute;
+      width: 220px;
+      height: 220px;
+      border-radius: 999px;
+      background: radial-gradient(circle at 30% 15%, rgba(250, 204, 21, 0.9), transparent 55%),
+                  radial-gradient(circle at 80% 60%, rgba(96, 165, 250, 0.9), transparent 55%);
+      filter: blur(8px);
+      opacity: 0.42;
+      top: -10%;
+      right: -10%;
+      pointer-events: none;
+      z-index: -1;
+    }
+
+    .hero-card {
+      background: radial-gradient(circle at top left, rgba(248, 250, 252, 0.06), transparent 45%), var(--card-bg);
+      border-radius: var(--radius-xl);
+      padding: 20px 20px 18px;
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow-soft);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
+    }
+
+    .avatar {
+      width: 52px;
+      height: 52px;
+      border-radius: 18px;
+      background: linear-gradient(135deg, #22c55e, #14b8a6, #6366f1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #e5e7eb;
+      font-weight: 700;
+      font-size: 1.3rem;
+      box-shadow: 0 14px 32px rgba(22, 163, 74, 0.58);
+    }
+
+    .hero-card-title {
+      font-size: 0.95rem;
+      font-weight: 600;
+    }
+
+    .hero-card-sub {
+      font-size: 0.75rem;
+      color: var(--muted);
+    }
+
+    .hero-chip-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 12px;
+    }
+
+    .chip {
+      font-size: 0.7rem;
+      padding: 4px 8px;
+      border-radius: 999px;
+      border: 1px solid rgba(148, 163, 184, 0.4);
+      color: var(--muted);
+      background: rgba(15, 23, 42, 0.7);
+    }
+
+    body.light .chip {
+      background: rgba(255, 255, 255, 0.9);
+    }
+
+    .hero-stat-row {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 10px;
+      margin-bottom: 14px;
+    }
+
+    .stat {
+      padding: 8px 10px;
+      border-radius: 14px;
+      background: rgba(15, 23, 42, 0.7);
+      border: 1px solid rgba(148, 163, 184, 0.5);
+      font-size: 0.7rem;
+    }
+
+    body.light .stat {
+      background: rgba(248, 250, 252, 0.9);
+    }
+
+    .stat-label {
+      color: var(--muted);
+      margin-bottom: 4px;
+    }
+
+    .stat-value {
+      font-weight: 600;
+      font-size: 0.9rem;
+    }
+
+    .hero-meter {
+      margin-bottom: 8px;
+    }
+
+    .meter-label {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.7rem;
+      color: var(--muted);
+      margin-bottom: 4px;
+    }
+
+    .meter-track {
+      width: 100%;
+      height: 7px;
+      border-radius: 999px;
+      background: rgba(15, 23, 42, 0.7);
+      overflow: hidden;
+      position: relative;
+    }
+
+    body.light .meter-track {
+      background: rgba(226, 232, 240, 0.9);
+    }
+
+    .meter-fill {
+      height: 100%;
+      border-radius: inherit;
+      background: linear-gradient(90deg, #22c55e, #a3e635, #f97316);
+      width: 92%;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .meter-fill::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(120deg, rgba(255, 255, 255, 0.2), transparent 45%);
+      mix-blend-mode: screen;
+    }
+
+    .hero-footer-note {
+      font-size: 0.7rem;
+      color: var(--muted);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+    }
+
+    .tiny-tag {
+      padding: 2px 8px;
+      border-radius: 999px;
+      border: 1px dashed rgba(148, 163, 184, 0.5);
+      font-size: 0.65rem;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--muted);
+    }
+
+    /* Sections */
+    section {
+      border-radius: var(--radius-xl);
+      padding: 20px 18px 18px;
+      background: linear-gradient(135deg, rgba(15, 23, 42, 0.94), rgba(15, 23, 42, 0.9)), var(--bg-alt);
+      border: 1px solid rgba(30, 64, 175, 0.5);
+      box-shadow: var(--shadow-soft);
+      position: relative;
+      overflow: hidden;
+    }
+
+    body.light section {
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.96), rgba(248, 250, 252, 0.98));
+      border-color: rgba(191, 219, 254, 0.7);
+    }
+
+    section::before {
+      content: "";
+      position: absolute;
+      inset: -40%;
+      background: radial-gradient(circle at top left, rgba(96, 165, 250, 0.11), transparent 50%);
+      opacity: 0.9;
+      pointer-events: none;
+    }
+
+    .section-inner {
+      position: relative;
+      z-index: 1;
+    }
+
+    .section-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
+      gap: 10px;
+    }
+
+    .section-title {
+      font-size: 1.1rem;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .section-tag {
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--muted);
+    }
+
+    .section-pill {
+      font-size: 0.7rem;
+      padding: 3px 10px;
+      border-radius: 999px;
+      background: var(--accent-soft);
+      color: var(--accent);
+      border: 1px solid rgba(129, 140, 248, 0.7);
+    }
+
+    .section-body {
+      font-size: 0.9rem;
+      color: var(--muted);
+    }
+
+    .two-col {
+      display: grid;
+      grid-template-columns: minmax(0, 1.5fr) minmax(0, 1.2fr);
+      gap: 18px;
+      margin-top: 10px;
+    }
+
+    @media (max-width: 800px) {
+      .two-col {
+        grid-template-columns: minmax(0, 1fr);
+      }
+    }
+
+    .info-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+      gap: 10px;
+      margin-top: 8px;
+    }
+
+    .info-card {
+      background: rgba(15, 23, 42, 0.8);
+      border-radius: 16px;
+      border: 1px solid rgba(148, 163, 184, 0.5);
+      padding: 10px 12px;
+      font-size: 0.8rem;
+    }
+
+    body.light .info-card {
+      background: rgba(255, 255, 255, 0.96);
+    }
+
+    .info-label {
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.07em;
+      color: var(--muted);
+      margin-bottom: 3px;
+    }
+
+    .info-value {
+      font-size: 0.85rem;
+      color: var(--text);
+    }
+
+    /* Highlights */
+    .highlight-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+      gap: 12px;
+      margin-top: 10px;
+    }
+
+    .highlight-card {
+      background: rgba(15, 23, 42, 0.82);
+      border-radius: 16px;
+      border: 1px solid rgba(148, 163, 184, 0.5);
+      padding: 12px 12px 10px;
+      font-size: 0.8rem;
+      position: relative;
+      overflow: hidden;
+      transition: transform var(--transition-med), box-shadow var(--transition-med), border-color var(--transition-med);
+      cursor: default;
+    }
+
+    body.light .highlight-card {
+      background: rgba(255, 255, 255, 0.98);
+    }
+
+    .highlight-card::after {
+      content: "";
+      position: absolute;
+      inset: -20%;
+      background: radial-gradient(circle at top, rgba(129, 140, 248, 0.18), transparent 55%);
+      opacity: 0;
+      transition: opacity 0.25s ease-out;
+    }
+
+    .highlight-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 18px 40px rgba(15, 23, 42, 0.7);
+      border-color: rgba(129, 140, 248, 0.85);
+    }
+
+    .highlight-card:hover::after {
+      opacity: 1;
+    }
+
+    .highlight-title {
+      font-size: 0.85rem;
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
+
+    .highlight-tag {
+      font-size: 0.7rem;
+      color: var(--muted);
+      margin-bottom: 4px;
+    }
+
+    /* Vibes / stats */
+    .vibe-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 8px;
+      font-size: 0.75rem;
+    }
+
+    .vibe-tag {
+      padding: 4px 9px;
+      border-radius: 999px;
+      border: 1px solid rgba(148, 163, 184, 0.5);
+      background: rgba(15, 23, 42, 0.75);
+      color: var(--muted);
+    }
+
+    body.light .vibe-tag {
+      background: rgba(248, 250, 252, 0.98);
+    }
+
+    .vibe-bars {
+      margin-top: 10px;
+      display: grid;
+      gap: 7px;
+      font-size: 0.8rem;
+    }
+
+    .vibe-row-label {
+      display: flex;
+      justify-content: space-between;
+      color: var(--muted);
+      margin-bottom: 2px;
+    }
+
+    .vibe-track {
+      height: 7px;
+      border-radius: 999px;
+      background: rgba(15, 23, 42, 0.7);
+      overflow: hidden;
+    }
+
+    body.light .vibe-track {
+      background: rgba(226, 232, 240, 0.9);
+    }
+
+    .vibe-fill {
+      height: 100%;
+      border-radius: inherit;
+      background: linear-gradient(90deg, #22c55e, #36cfc9, #6366f1);
+    }
+
+    /* Timeline */
+    .timeline {
+      margin-top: 10px;
+      border-left: 1px dashed rgba(148, 163, 184, 0.6);
+      padding-left: 12px;
+      display: grid;
+      gap: 10px;
+      font-size: 0.8rem;
+    }
+
+    .timeline-item {
+      position: relative;
+      padding-left: 4px;
+    }
+
+    .timeline-dot {
+      position: absolute;
+      left: -15px;
+      top: 3px;
+      width: 10px;
+      height: 10px;
+      border-radius: 999px;
+      background: radial-gradient(circle at 30% 20%, #facc15, #f97316);
+      box-shadow: 0 0 16px rgba(234, 179, 8, 0.9);
+    }
+
+    .timeline-time {
+      font-size: 0.7rem;
+      color: var(--muted);
+      margin-bottom: 2px;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    .timeline-title {
+      font-size: 0.85rem;
+      font-weight: 600;
+      margin-bottom: 2px;
+    }
+
+    /* Gallery cards */
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+      gap: 12px;
+      margin-top: 10px;
+    }
+
+    .gallery-card {
+      border-radius: 18px;
+      border: 1px solid rgba(148, 163, 184, 0.55);
+      background: radial-gradient(circle at top, rgba(148, 163, 248, 0.2), transparent 45%), rgba(15, 23, 42, 0.95);
+      padding: 12px;
+      font-size: 0.8rem;
+      position: relative;
+      overflow: hidden;
+      transition: transform var(--transition-med), box-shadow var(--transition-med), border-color var(--transition-med);
+    }
+
+    body.light .gallery-card {
+      background: radial-gradient(circle at top, rgba(191, 219, 254, 0.5), transparent 45%), rgba(255, 255, 255, 0.98);
+    }
+
+    .gallery-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 20px 40px rgba(15, 23, 42, 0.75);
+      border-color: rgba(129, 140, 248, 0.9);
+    }
+
+    .gallery-badge {
+      font-size: 0.7rem;
+      padding: 3px 8px;
+      border-radius: 999px;
+      background: rgba(15, 23, 42, 0.85);
+      color: #e5e7eb;
+      display: inline-block;
+      margin-bottom: 6px;
+    }
+
+    body.light .gallery-badge {
+      background: #1e293b;
+    }
+
+    .gallery-title {
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
+
+    .gallery-emoji {
+      position: absolute;
+      right: 10px;
+      bottom: 8px;
+      font-size: 1.6rem;
+      opacity: 0.85;
+    }
+
+    /* Contact */
+    .contact-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr);
+      gap: 18px;
+      margin-top: 10px;
+    }
+
+    @media (max-width: 800px) {
+      .contact-grid {
+        grid-template-columns: minmax(0, 1fr);
+      }
+    }
+
+    form {
+      display: grid;
+      gap: 8px;
+      font-size: 0.85rem;
+    }
+
+    label {
+      font-size: 0.8rem;
+      color: var(--muted);
+    }
+
+    input,
+    textarea {
+      width: 100%;
+      margin-top: 3px;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      padding: 8px 10px;
+      font-family: inherit;
+      font-size: 0.85rem;
+      background: rgba(15, 23, 42, 0.95);
+      color: var(--text);
+      outline: none;
+      transition: border-color var(--transition-fast), box-shadow var(--transition-fast), background var(--transition-fast);
+    }
+
+    body.light input,
+    body.light textarea {
+      background: rgba(255, 255, 255, 0.98);
+    }
+
+    input:focus,
+    textarea:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 1px rgba(129, 140, 248, 0.55);
+    }
+
+    textarea {
+      resize: vertical;
+      min-height: 90px;
+    }
+
+    .contact-note {
+      font-size: 0.8rem;
+      color: var(--muted);
+      padding: 10px 12px;
+      border-radius: 16px;
+      border: 1px dashed rgba(148, 163, 184, 0.7);
+      background: rgba(15, 23, 42, 0.75);
+    }
+
+    body.light .contact-note {
+      background: rgba(248, 250, 252, 0.98);
+    }
+
+    footer {
+      margin-top: 18px;
+      font-size: 0.75rem;
+      color: var(--muted);
+      text-align: center;
+    }
+
+    /* Reveal on scroll */
+    .reveal {
+      opacity: 0;
+      transform: translateY(16px);
+      transition: opacity 0.4s ease-out, transform 0.4s ease-out;
+    }
+
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .reveal.delay-1 {
+      transition-delay: 0.07s;
+    }
+    .reveal.delay-2 {
+      transition-delay: 0.13s;
+    }
+    .reveal.delay-3 {
+      transition-delay: 0.2s;
+    }
+  </style>
+</head>
+<body>
+  <div class="noise-overlay"></div>
+
+  <div class="page">
+    <header>
+      <div class="logo">
+        <div class="logo-badge">J</div>
+        <div>
+          <div>Jacob</div>
+          <div style="font-size:0.7rem; text-transform:uppercase; letter-spacing:0.08em; color:var(--muted);">
+            Certified Cool Person
+          </div>
+        </div>
+      </div>
+
+      <nav>
+        <a data-scroll="#about">About</a>
+        <a data-scroll="#highlights">Highlights</a>
+        <a data-scroll="#vibes">Vibes</a>
+        <a data-scroll="#gallery">Gallery</a>
+        <a data-scroll="#contact">Contact</a>
+        <button class="theme-toggle" id="themeToggle" type="button">
+          <span class="theme-icon" id="themeIcon">🌙</span>
+          <span>Toggle theme</span>
+        </button>
+      </nav>
+    </header>
+
+    <main>
+      <!-- HERO -->
+      <section class="hero reveal">
+        <div class="hero-text section-inner">
+          <div class="pill">
+            <span class="pill-dot"></span>
+            <span>Jacob is online • Coolness at 100%</span>
+          </div>
+
+          <h1 class="hero-title">
+            Jacob is a <span>very cool person</span> and this website proves it.
+          </h1>
+
+          <p class="hero-subtitle">
+            This page is dedicated to <strong>Jacob</strong> — the person who somehow manages to be chill,
+            funny, reliable, and just the right amount of chaotic, all at the same time.
+          </p>
+
+          <div class="hero-actions">
+            <button class="btn btn-primary" data-scroll="#about">
+              Meet Jacob
+              <span>↓</span>
+            </button>
+            <button class="btn btn-ghost" data-scroll="#contact">
+              Send Jacob some appreciation
+            </button>
+          </div>
+
+          <div class="hero-meta">
+            <div class="meta-item">
+              <span class="meta-badge">Live status</span>
+              <span>Currently being cool somewhere.</span>
+            </div>
+            <div class="meta-item">
+              <span class="meta-badge">Special ability</span>
+              <span>Upgrades any room just by walking in.</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="hero-card-wrapper section-inner reveal delay-1">
+          <div class="glow-orb"></div>
+          <div class="hero-card">
+            <div class="hero-card-header">
+              <div>
+                <div class="hero-card-title">Jacob • Coolness Dashboard</div>
+                <div class="hero-card-sub">Real-time readings* of Jacob’s vibe.</div>
+              </div>
+              <div class="avatar">J</div>
+            </div>
+
+            <div class="hero-chip-row">
+              <div class="chip">Chill energy</div>
+              <div class="chip">Good friend</div>
+              <div class="chip">Main character aura</div>
+            </div>
+
+            <div class="hero-stat-row">
+              <div class="stat">
+                <div class="stat-label">Friendship level</div>
+                <div class="stat-value">MAXED OUT</div>
+              </div>
+              <div class="stat">
+                <div class="stat-label">Humor rating</div>
+                <div class="stat-value">Legendary</div>
+              </div>
+              <div class="stat">
+                <div class="stat-label">Reliability</div>
+                <div class="stat-value">On lock</div>
+              </div>
+            </div>
+
+            <div class="hero-meter">
+              <div class="meter-label">
+                <span>Overall coolness</span>
+                <span>92 / 90</span>
+              </div>
+              <div class="meter-track">
+                <div class="meter-fill"></div>
+              </div>
+            </div>
+
+            <div class="hero-footer-note">
+              <span>*All stats verified by people who know what they’re talking about.</span>
+              <span class="tiny-tag">System: JacobOS v1.0</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ABOUT -->
+      <section id="about" class="reveal delay-1">
+        <div class="section-inner">
+          <div class="section-header">
+            <div>
+              <div class="section-tag">Section 01</div>
+              <h2 class="section-title">Who is Jacob, exactly?</h2>
+            </div>
+            <div class="section-pill">Short answer: a cool person.</div>
+          </div>
+
+          <div class="two-col">
+            <div class="section-body">
+              Jacob is that person who makes things feel lighter just by being around — the kind of friend who
+              remembers the small details, laughs at the right moments, and still somehow manages to keep life
+              moving forward when everything gets a little chaotic. Jacob’s coolness isn’t about trying too hard;
+              it’s about being real, steady, and fun to be around.
+              <br /><br />
+              Whether it’s hyping people up, dropping unexpectedly good advice, or knowing exactly when to crack
+              a joke, Jacob has a talent for making situations better. If you ever needed proof that “chill” and
+              “reliable” can exist in the same person, Jacob is Exhibit A.
+            </div>
+
+            <div>
+              <div class="info-grid">
+                <div class="info-card">
+                  <div class="info-label">Core vibe</div>
+                  <div class="info-value">Calm, funny, lowkey brilliant.</div>
+                </div>
+                <div class="info-card">
+                  <div class="info-label">Special move</div>
+                  <div class="info-value">Turning awkward moments into inside jokes.</div>
+                </div>
+                <div class="info-card">
+                  <div class="info-label">Reputation</div>
+                  <div class="info-value">“If Jacob’s there, it’ll be good.”</div>
+                </div>
+                <div class="info-card">
+                  <div class="info-label">Fun fact</div>
+                  <div class="info-value">Somehow both the main character and the chill friend.</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- HIGHLIGHTS -->
+      <section id="highlights" class="reveal delay-2">
+        <div class="section-inner">
+          <div class="section-header">
+            <div>
+              <div class="section-tag">Section 02</div>
+              <h2 class="section-title">Jacob highlight reel</h2>
+            </div>
+            <div class="section-pill">A quick tour of the cool.</div>
+          </div>
+
+          <div class="highlight-grid">
+            <div class="highlight-card">
+              <div class="highlight-title">Unshakable chill</div>
+              <div class="highlight-tag">Pressure? Jacob doesn’t know her.</div>
+              <p>When things get stressful, Jacob is usually the calm one in the room, keeping the mood steady
+                and helping people think clearly instead of spiraling.</p>
+            </div>
+
+            <div class="highlight-card">
+              <div class="highlight-title">Top-tier humor</div>
+              <div class="highlight-tag">Comedy, but casually.</div>
+              <p>Jacob has that natural, unforced sense of humor — the kind where jokes just appear at the perfect
+                time and somehow make everybody feel a little better.</p>
+            </div>
+
+            <div class="highlight-card">
+              <div class="highlight-title">Good friend energy</div>
+              <div class="highlight-tag">Loyalty unlocked.</div>
+              <p>Need someone to listen, someone to show up, or someone to roast you lovingly? Jacob somehow manages
+                to do all three and still be supportive.</p>
+            </div>
+
+            <div class="highlight-card">
+              <div class="highlight-title">Effortless presence</div>
+              <div class="highlight-tag">Room upgraded.</div>
+              <p>Jacob doesn’t have to be loud to stand out — just being there makes the vibe better, more relaxed,
+                and way more fun.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- VIBES -->
+      <section id="vibes" class="reveal delay-3">
+        <div class="section-inner">
+          <div class="section-header">
+            <div>
+              <div class="section-tag">Section 03</div>
+              <h2 class="section-title">Breaking down the Jacob vibe</h2>
+            </div>
+            <div class="section-pill">Coolness metrics* (*kind of).</div>
+          </div>
+
+          <div class="two-col">
+            <div class="section-body">
+              If you tried to explain Jacob using stats instead of words, it would look something like this:
+              cool, relaxed, supportive, and just the right level of chaos to keep life interesting. Nothing
+              about it feels forced — which is exactly why it works.
+              <div class="vibe-tags">
+                <span class="vibe-tag">Certified chill person</span>
+                <span class="vibe-tag">Good at listening</span>
+                <span class="vibe-tag">Dangerously good at inside jokes</span>
+                <span class="vibe-tag">Reliable main character</span>
+                <span class="vibe-tag">Low-key thoughtful</span>
+              </div>
+            </div>
+
+            <div>
+              <div class="vibe-bars">
+                <div>
+                  <div class="vibe-row-label">
+                    <span>Chill level</span><span>98%</span>
+                  </div>
+                  <div class="vibe-track">
+                    <div class="vibe-fill" style="width: 98%;"></div>
+                  </div>
+                </div>
+                <div>
+                  <div class="vibe-row-label">
+                    <span>Humor & jokes</span><span>95%</span>
+                  </div>
+                  <div class="vibe-track">
+                    <div class="vibe-fill" style="width: 95%;"></div>
+                  </div>
+                </div>
+                <div>
+                  <div class="vibe-row-label">
+                    <span>Friendship energy</span><span>100%</span>
+                  </div>
+                  <div class="vibe-track">
+                    <div class="vibe-fill" style="width: 100%;"></div>
+                  </div>
+                </div>
+                <div>
+                  <div class="vibe-row-label">
+                    <span>Chaos (fun kind)</span><span>72%</span>
+                  </div>
+                  <div class="vibe-track">
+                    <div class="vibe-fill" style="width: 72%;"></div>
+                  </div>
+                </div>
+                <div>
+                  <div class="vibe-row-label">
+                    <span>Drama</span><span>7%</span>
+                  </div>
+                  <div class="vibe-track">
+                    <div class="vibe-fill" style="width: 7%; background: linear-gradient(90deg, #22c55e, #22c55e);"></div>
+                  </div>
+                </div>
+              </div>
+
+              <div style="font-size:0.75rem; color:var(--muted); margin-top:8px;">
+                Numbers are approximate and powered by advanced friendship analytics™.
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- GALLERY / MOMENTS -->
+      <section id="gallery" class="reveal">
+        <div class="section-inner">
+          <div class="section-header">
+            <div>
+              <div class="section-tag">Section 04</div>
+              <h2 class="section-title">Jacob moments, summarized</h2>
+            </div>
+            <div class="section-pill">Tiny stories, big energy.</div>
+          </div>
+
+          <div class="gallery-grid">
+            <div class="gallery-card">
+              <div class="gallery-badge">Everyday hero</div>
+              <div class="gallery-title">The one who checks in</div>
+              <p>Jacob is the person who sends the “you good?” text at exactly the right time, and somehow knows
+                when something’s off even when you didn’t say anything.</p>
+              <div class="gallery-emoji">💬</div>
+            </div>
+
+            <div class="gallery-card">
+              <div class="gallery-badge">Certified vibe curator</div>
+              <div class="gallery-title">The playlist person</div>
+              <p>Chill hangout? Focus time? Late-night chaos? Jacob probably has a playlist for that energy and
+                it’s annoyingly on point.</p>
+              <div class="gallery-emoji">🎧</div>
+            </div>
+
+            <div class="gallery-card">
+              <div class="gallery-badge">Lowkey legendary</div>
+              <div class="gallery-title">The memory maker</div>
+              <p>Half of the best stories start with “Remember when Jacob…” and that’s really all you need to
+                know about the impact.</p>
+              <div class="gallery-emoji">⭐</div>
+            </div>
+          </div>
+
+          <div class="timeline">
+            <div class="timeline-item">
+              <div class="timeline-dot"></div>
+              <div class="timeline-time">Origin era</div>
+              <div class="timeline-title">First signs of coolness</div>
+              <p>No one knows exactly when it started, but at some point Jacob became That Person everyone
+                trusted to keep things fun but not chaotic.</p>
+            </div>
+            <div class="timeline-item">
+              <div class="timeline-dot"></div>
+              <div class="timeline-time">Ongoing</div>
+              <div class="timeline-title">Consistently solid friend</div>
+              <p>From random messages to in-person moments, Jacob keeps showing up, which is honestly one of
+                the coolest things a person can do.</p>
+            </div>
+            <div class="timeline-item">
+              <div class="timeline-dot"></div>
+              <div class="timeline-time">Future</div>
+              <div class="timeline-title">More coolness pending</div>
+              <p>The story is still being written — but based on current data, future Jacob remains extremely
+                cool.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- CONTACT -->
+      <section id="contact" class="reveal delay-2">
+        <div class="section-inner">
+          <div class="section-header">
+            <div>
+              <div class="section-tag">Section 05</div>
+              <h2 class="section-title">Send a message to Jacob</h2>
+            </div>
+            <div class="section-pill">Digital appreciation corner.</div>
+          </div>
+
+          <div class="contact-grid">
+            <form id="messageForm">
+              <div>
+                <label for="name">Your name</label>
+                <input id="name" name="name" type="text" placeholder="Type your name here" />
+              </div>
+              <div>
+                <label for="mood">What’s the vibe?</label>
+                <input id="mood" name="mood" type="text" placeholder="E.g. thankful, proud, chaotic, bored..." />
+              </div>
+              <div>
+                <label for="message">Message for Jacob</label>
+                <textarea id="message" name="message" placeholder="Say something nice. Jacob deserves it."></textarea>
+              </div>
+              <div style="margin-top:4px;">
+                <button class="btn btn-primary" type="submit">Send virtual appreciation</button>
+              </div>
+            </form>
+
+            <div class="contact-note">
+              This form doesn’t actually send anywhere (unless you hook it up later), but it’s a reminder that
+              telling people they’re cool and appreciated is always a good idea. Jacob might already know they’re
+              a cool person — still doesn’t hurt to say it out loud.
+              <br /><br />
+              Also, if you ever build the backend for this, you can turn this into a real “messages for Jacob”
+              wall. Very wholesome. Very on-brand.
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      Built to honor Jacob’s coolness. Front-end only, no backend, 100% good vibes.
+    </footer>
+  </div>
+
+  <script>
+    // Restore theme from localStorage
+    (function () {
+      const stored = localStorage.getItem("jacob-theme");
+      if (stored === "light") {
+        document.body.classList.add("light");
+      }
+    })();
+
+    const themeToggle = document.getElementById("themeToggle");
+    const themeIcon = document.getElementById("themeIcon");
+
+    function updateThemeIcon() {
+      if (document.body.classList.contains("light")) {
+        themeIcon.textContent = "☀️";
+      } else {
+        themeIcon.textContent = "🌙";
+      }
+    }
+
+    updateThemeIcon();
+
+    themeToggle.addEventListener("click", () => {
+      document.body.classList.toggle("light");
+      const mode = document.body.classList.contains("light") ? "light" : "dark";
+      localStorage.setItem("jacob-theme", mode);
+      updateThemeIcon();
+    });
+
+    // Smooth scrolling
+    document.querySelectorAll("[data-scroll]").forEach((el) => {
+      el.addEventListener("click", (e) => {
+        e.preventDefault();
+        const target = el.getAttribute("data-scroll");
+        const section = document.querySelector(target);
+        if (section) {
+          section.scrollIntoView({ behavior: "smooth", block: "start" });
+        }
+      });
+    });
+
+    // Reveal on scroll
+    const reveals = document.querySelectorAll(".reveal");
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("visible");
+            observer.unobserve(entry.target);
+          }
+        });
+      },
+      { threshold: 0.16 }
+    );
+
+    reveals.forEach((el) => observer.observe(el));
+
+    // Fake form submit
+    const form = document.getElementById("messageForm");
+    form.addEventListener("submit", (e) => {
+      e.preventDefault();
+      const name = (document.getElementById("name").value || "Someone").trim();
+      alert(name + " just sent some virtual appreciation to Jacob. That’s pretty cool.");
+      form.reset();
+    });
+  </script>
+</body>
+</html>
